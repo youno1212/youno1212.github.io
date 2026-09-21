@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>量子計算の分野地図</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#e9edf0;
+  --paper-2:#dfe5ea;
+  --ink:#0f1e29;
+  --ink-soft:#42596a;
+  --ink-faint:#70889a;
+  --rule:#bac7d1;
+  --hi:#215a7c;
+  --mid:#1f7a72;
+  --low:#5f7c38;
+  --gold:#a8761a;
+  --shell:#f3f6f8;
+  --blend:multiply;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#0e1a23;--paper-2:#14242f;--ink:#e0e9ef;--ink-soft:#a6b8c5;--ink-faint:#7b91a1;
+    --rule:#283d4c;--hi:#7cb7db;--mid:#5fc4b6;--low:#a9c97c;--gold:#e5bb5c;--shell:#0a141b;--blend:screen;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0e1a23;--paper-2:#14242f;--ink:#e0e9ef;--ink-soft:#a6b8c5;--ink-faint:#7b91a1;
+  --rule:#283d4c;--hi:#7cb7db;--mid:#5fc4b6;--low:#a9c97c;--gold:#e5bb5c;--shell:#0a141b;--blend:screen;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--shell);color:var(--ink);
+  font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  font-size:16px;line-height:1.85;-webkit-text-size-adjust:100%}
+h1,h2{font-family:"Noto Serif JP",Georgia,"Yu Mincho",serif;font-weight:600;line-height:1.4;margin:0}
+p{margin:0 0 1em}
+.wrap{max-width:66rem;margin:0 auto;padding:0 clamp(.9rem,3vw,2rem) 5rem}
+.prose{max-width:34em}
+
+header{padding:clamp(2rem,6vw,3.5rem) 0 1.6rem}
+h1{font-size:clamp(1.5rem,4.5vw,2.3rem);margin-bottom:.7rem}
+header p{color:var(--ink-soft)}
+
+.controls{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:0 0 .8rem}
+.ctl{font:inherit;font-size:.83rem;cursor:pointer;padding:.28rem .7rem;border-radius:2px;
+  border:1px solid var(--rule);background:var(--paper);color:var(--ink-soft)}
+.ctl:hover{border-color:var(--gold)}
+.ctl[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#12202b;font-weight:700}
+.ctl.pin[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.ctl-label{font-size:.78rem;color:var(--ink-faint);margin-right:.2rem}
+
+.hint{font-size:.78rem;color:var(--ink-faint);margin:0 0 .5rem}
+.canvas{overflow-x:auto;border:1px solid var(--rule);background:var(--paper);-webkit-overflow-scrolling:touch}
+.canvas svg{display:block;width:100%;min-width:680px;height:auto}
+
+.blob{fill-opacity:.22;stroke-width:1.6;cursor:pointer;mix-blend-mode:var(--blend)}
+.blob:hover{fill-opacity:.4}
+.blob.dim{fill-opacity:.07;stroke-opacity:.25}
+.blob.sel{fill-opacity:.45;stroke-width:2.6}
+.flabel{font-family:"Noto Sans JP",sans-serif;font-weight:700;font-size:16px;fill:var(--ink);
+  text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round}
+.flabel.small{font-size:14px}
+.xlabel{font-family:"Noto Sans JP",sans-serif;font-size:11.5px;fill:var(--ink-soft);text-anchor:middle;
+  pointer-events:none;paint-order:stroke;stroke:var(--paper);stroke-width:3.5px;stroke-linejoin:round}
+.xdot{fill:var(--paper);stroke:var(--ink-soft);stroke-width:1.4}
+.axis{stroke:var(--rule);stroke-width:1}
+.axcap{font-family:"Noto Sans JP",sans-serif;font-size:12.5px;fill:var(--ink-faint)}
+.vein{fill:none;stroke:var(--gold);stroke-width:5;stroke-linecap:round;opacity:.85}
+.veinGhost{fill:none;stroke:var(--gold);stroke-width:14;stroke-linecap:round;opacity:.16}
+.veinDot{fill:var(--gold);stroke:var(--paper);stroke-width:2}
+.pin{fill:var(--gold);stroke:var(--ink);stroke-width:1.4}
+#pins{pointer-events:visiblePainted}
+.pinGroup{cursor:pointer}
+.pinBox{fill:var(--paper);fill-opacity:.68;stroke:var(--ink-soft);stroke-width:1;rx:2;opacity:0;transition:opacity .15s ease}
+.pinLabel{font-family:"Noto Sans JP",sans-serif;font-size:12.5px;font-weight:700;fill:var(--ink);
+  text-anchor:middle;opacity:0;transition:opacity .15s ease}
+.pinGroup:hover .pinBox,.pinGroup.active .pinBox,
+.pinGroup:hover .pinLabel,.pinGroup.active .pinLabel{opacity:1}
+.pinGroup:hover .pinBox,.pinGroup.active .pinBox{stroke:var(--gold)}
+
+.panel{border:1px solid var(--rule);border-left:4px solid var(--pc,var(--rule));background:var(--paper);
+  padding:1rem 1.1rem;margin-top:1rem;min-height:9rem}
+.panel h2{font-size:1.05rem;margin-bottom:.15rem;color:var(--pc,var(--ink))}
+.panel .q{font-size:.88rem;color:var(--ink-faint);margin:0 0 .6rem}
+.panel .note{font-size:.93rem;color:var(--ink-soft);max-width:44em}
+.rows{margin-top:.6rem}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.35rem}
+.row .lab{flex:0 0 3.6rem;font-size:.76rem;color:var(--ink-faint);padding-top:.2rem}
+.row .val{flex:1 1 15rem;min-width:0;display:flex;flex-wrap:wrap;gap:.3rem}
+.chip{font-size:.77rem;line-height:1.5;padding:.1rem .45rem;border:1px solid var(--rule);border-radius:2px;color:var(--ink-soft);background:var(--paper-2)}
+
+.legend{display:flex;flex-wrap:wrap;gap:1rem;font-size:.79rem;color:var(--ink-faint);margin-top:.8rem}
+.legend i{font-style:normal;display:inline-flex;align-items:center;gap:.35rem}
+.swatch{width:.85rem;height:.85rem;display:inline-block;border:1px solid currentColor;opacity:.75}
+
+.read{padding:2.5rem 0 0;border-top:1px solid var(--rule);margin-top:2.5rem}
+.read h2{font-size:1.15rem;margin-bottom:.8rem}
+.read .big{font-weight:700;font-size:1.02rem}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>量子計算の分野地図</h1>
+  <p class="prose">ハードウェアを除いた全域を、一枚の平面にした。上に行くほど紙とペンで理論の研究になり、下に行くほどシミュレーションや実機データなどの具体的な数値を示す研究になる。また、左に行くほど「原理的に何が可能でどこに限界があるのか」という本質的な探求を目指し、右に行くほど「ノイズの対策や最適化を行っていかに現実のデバイスを動かすか」という実用的な運用を目指す。分野は面として広がり、面が重なったところに境界領域の名前がつく。離れた分野をつなぐ共通言語は、面ではなく金色の線で引いてある。</p>
+</header>
+
+<div class="controls">
+  <span class="ctl-label">共通言語</span>
+  <span id="veinBtns" style="display:contents"></span>
+  <button class="ctl pin" type="button" id="pinBtn" aria-pressed="false">研究テーマを表示</button>
+</div>
+<p class="hint">面をタップすると下に説明が出る。横に切れている場合は図を左右にスクロールする。</p>
+
+<div class="canvas">
+  <svg id="map" viewBox="0 0 1000 780" role="img" aria-label="量子計算の分野を二軸平面上に配置したオイラー図"></svg>
+</div>
+
+<div class="legend">
+  <i><span class="swatch" style="background:var(--hi);color:var(--hi)"></span>定理で終わる層</i>
+  <i><span class="swatch" style="background:var(--mid);color:var(--mid)"></span>定理と数値の両方</i>
+  <i><span class="swatch" style="background:var(--low);color:var(--low)"></span>数値で終わる層</i>
+  <i><span class="swatch" style="background:transparent;border-style:dashed"></span>白丸は面の重なり＝境界領域</i>
+  <i><span class="swatch" style="background:var(--gold);color:var(--gold)"></span>金の線は層をまたぐ共通言語</i>
+</div>
+
+<div class="panel" id="panel"></div>
+
+</div>
+
+<script>
+/* ============================================================
+   ピンはここを編集する。
+   x: 0=限界を知りたい, 1=動かしたい
+   y: 0=定理で終わる,   1=数値で終わる
+   stem: ラベルまでの棒の長さ(px) / anchor: 'start' は右へ, 'end' は左へ
+   ============================================================ */
+const PINS=[
+  {x:.215,y:.455,label:'量子カーネルの三条件の同時成立',stem:70,anchor:'start'},
+  {x:.330,y:.550,label:'量子カーネルによる化合物特性予測',stem:34,anchor:'start'},
+  {x:.400,y:.520,label:'再アップロード回路による転移学習',stem:80,anchor:'start'},
+  {x:.470,y:.500,label:'ハイブリッドなドローン経路最適化',stem:34,anchor:'start'},
+  {x:.460,y:.720,label:'QUBOによるCNN圧縮',stem:60,anchor:'end'},
+  {x:.540,y:.780,label:'MILPのQUBO変換と分枝',stem:34,anchor:'end'},
+  {x:.620,y:.780,label:'経路と積載の段階最適化',stem:34,anchor:'start'},
+  {x:.640,y:.700,label:'経路と積載の同時最適化',stem:34,anchor:'start'},
+  {x:.900,y:.440,label:'強化学習によるZXグラフ簡約',stem:50,anchor:'end'}
+];
+
+const FIELDS=[
+ {id:'cx',n:'計算量・量子情報理論',x:.17,y:.13,rx:.165,ry:.17,layer:'hi',
+  q:'量子計算の限界はどこか。何が原理的に不可能か',
+  note:'「量子が速い」と言うときの論証は、たいていここから借りている。古典が真似できたら階層が崩れてしまう、という背理法が優位性主張の骨格になる。',
+  obj:['BQP','QMA','多項式階層','局所ハミルトニアン問題','量子通信路容量'],
+  phe:['多項式階層の崩壊','QMA完全性'],too:['計算量還元','凸解析','量子シャノン理論']},
+ {id:'alg',n:'量子アルゴリズム理論',x:.47,y:.11,rx:.19,ry:.15,layer:'hi',
+  q:'どの問題が、どれだけ速くなるのか',
+  note:'加速の程度は指数と二次に大きく割れる。近年は個別のアルゴリズムを量子信号処理と特異値変換の枠に統合する動きが中心で、線形代数が読めれば入口に立てる。',
+  obj:['Shor','Grover','量子位相推定','QSVT','量子ウォーク'],
+  phe:['指数加速','二次加速','クエリ下界'],too:['線形代数','フーリエ解析','ブロックエンコーディング']},
+ {id:'qec',n:'誤り訂正の符号理論',x:.845,y:.115,rx:.145,ry:.135,layer:'hi',
+  q:'誤る部品から、誤らない計算をどう組み立てるか',
+  note:'符号の構成は群論とホモロジーだが、デコーダの設計はグラフアルゴリズムと確率推論そのもので、古典符号の素養がそのまま効く。しきい値の数値はノイズモデルとデコーダを揃えないと比較にならない。',
+  obj:['安定化符号','表面符号','量子LDPC符号','符号距離'],
+  phe:['論理誤り率の抑制'],too:['Pauli群','ホモロジー代数','最小重み完全マッチング','信念伝播']},
+ {id:'crypto',n:'量子暗号・通信',x:.07,y:.27,rx:.12,ry:.125,layer:'hi',
+  q:'量子力学は、どんな安全性を無条件に保証できるか',
+  note:'計算の速さではなく、盗聴が原理的に検出されることを使う。何ができないかを示す不可能性定理が分野の輪郭を決めている点が、他とはっきり違う。',
+  obj:['BB84','MDI-QKD','量子ネットワーク','ブラインド量子計算'],
+  phe:['無条件安全性','デバイス非依存性'],too:['情報理論','エントロピー不等式','ベル不等式']},
+
+ {id:'qml',n:'量子機械学習',x:.265,y:.445,rx:.175,ry:.175,layer:'mid',
+  q:'量子回路は学習機械として古典に勝てるか',
+  note:'層の幅がいちばん広い。実データで精度を競う浅い側と、原理的に何が可能かを問う深い側が同居している。深い側では、表現力を上げれば測れなくなり、測れるよう抑えれば古典で解けるという緊張が中心にある。',
+  obj:['量子カーネル','量子ニューラルネットワーク','量子生成モデル','射影量子カーネル'],
+  phe:['指数集中','スペクトル平坦性','脱量子化'],
+  too:['統計的学習理論','再生核ヒルベルト空間','測度集中','ランダム行列']},
+ {id:'vqa',n:'変分量子アルゴリズム',x:.465,y:.405,rx:.15,ry:.185,layer:'mid',
+  q:'浅い回路と古典最適化の組で、どこまでできるか',
+  note:'勾配が量子ビット数に対して指数的に消えると、最適化そのものが始まらない。原因はアンザッツ、初期状態、観測量、損失関数、ノイズの五つに整理されている。',
+  obj:['VQE','QAOA','パラメータ化量子回路','動的リー代数'],
+  phe:['バレンプラトー','局所解の増殖'],too:['測度集中','パラメータシフト則','平均場近似']},
+ {id:'sim',n:'量子シミュレーション',x:.665,y:.375,rx:.15,ry:.195,layer:'mid',
+  q:'自然界のハミルトニアンを、どこまで正確に再現できるか',
+  note:'情報工学出身者にとって壁がいちばん高い。手法より先に対象の物理を知らないと問いが立たないからで、量子化学や場の理論の語彙が前提になる。',
+  obj:['ハミルトニアンシミュレーション','Trotter分解','qubitization','電子構造問題','格子ゲージ理論'],
+  phe:['BQP完全性','初期状態準備のボトルネック'],too:['作用素論','数値解析','テンソル縮約']},
+ {id:'compile',n:'コンパイルと回路最適化',x:.885,y:.385,rx:.13,ry:.15,layer:'mid',
+  q:'理想の回路を、制約だらけの実機語にどう翻訳するか',
+  note:'この地図でいちばん工学的な場所。物理も数学もほとんど要らず、純粋にコンパイラと組合せ最適化の問題として立つ。交換操作はふつうCNOT三つ分に分解されるので、その挿入をどれだけ減らせるかが勝負になる。',
+  obj:['トランスパイラ','初期マッピング','ルーティング','SWAP挿入','ZX計算'],
+  phe:['マッピングのNP困難性','回路深さの膨張'],too:['グラフアルゴリズム','組合せ最適化','SATソルバ']},
+
+ {id:'bench',n:'ベンチマークと優位性',x:.245,y:.715,rx:.17,ry:.15,layer:'low',
+  q:'いまの機械は本当に古典を超えたのか。どう測れば公平か',
+  note:'量子側の主張と古典側の反証が交互に出る領域。優位は確定した事実ではなく、回路の幾何・深さ・忠実度に依存する条件付きの主張として読む必要がある。',
+  obj:['ランダム回路サンプリング','線形XEB','Quantum Volume','ボソンサンプリング'],
+  phe:['古典シミュラビリティの相転移','雑音による優位の消失'],
+  too:['テンソル縮約','高性能計算','統計的仮説検定']},
+ {id:'anneal',n:'アニーリングとイジングマシン',x:.55,y:.715,rx:.165,ry:.155,layer:'low',
+  q:'基底状態へのゆっくりな変化で、最適化はどこまで解けるか',
+  note:'問題をIsing形式に書き換える作業は定式化の技術で、入口は広い。ただし「本当に量子が効いているのか」に踏み込むと、途端にスピングラスと統計力学の世界に入る。',
+  obj:['Ising模型','QUBO','横磁場','スピングラス','逆アニーリング'],
+  phe:['相転移','エネルギーギャップの閉じ方'],too:['断熱定理','レプリカ法','平均場近似','モンテカルロ法']},
+ {id:'mit',n:'誤り軽減',x:.845,y:.645,rx:.14,ry:.17,layer:'low',
+  q:'誤り訂正なしで、期待値をどこまで取り戻せるか',
+  note:'符号化の代わりに統計で誤りを打ち消す。精度を上げるほど必要な測定回数が跳ね上がるという原理的な限界が知られていて、「改善した」という報告が本物かどうかの検証自体が研究対象になっている。',
+  obj:['ゼロノイズ外挿','確率的誤りキャンセル','仮想蒸留','対称性検証'],
+  phe:['サンプリングコストの指数増大','見かけの改善'],
+  too:['推定理論','バイアスと分散の分解']}
+];
+
+const XS=[
+ {x:.320,y:.120,t:'アルゴリズムの下界'},
+ {x:.218,y:.288,t:'脱量子化と古典サロゲート'},
+ {x:.120,y:.200,t:'安全性の計算量的根拠'},
+ {x:.140,y:.365,t:'秘匿したままの学習'},
+ {x:.467,y:.258,t:'変分アルゴリズムの設計'},
+ {x:.566,y:.239,t:'ハミルトニアンシミュレーション'},
+ {x:.868,y:.243,t:'フォールトトレラント・コンパイル'},
+ {x:.865,y:.515,t:'雑音を見込んだ回路設計'},
+ {x:.365,y:.385,t:'バレンプラトーと訓練可能性'},
+ {x:.565,y:.360,t:'VQE・量子化学'},
+ {x:.509,y:.565,t:'QAOA'},
+ {x:.255,y:.580,t:'QMLの公平な比較'},
+ {x:.398,y:.715,t:'イジングマシンのベンチマーク'},
+ {x:.746,y:.532,t:'雑音下の時間発展'}
+];
+
+const VEINS=[
+ {id:'sm',n:'統計力学',path:['anneal','vqa','qml','bench'],
+  line:'多数の自由度を平均で捉え、パラメータをわずかに動かしたときに性質が急変する点を探す。最適化の解けなさも、学習の壊れ方も、古典シミュレーションの限界も、同じ語彙で書ける。',
+  w:['相転移','平均場近似','レプリカ法','スピングラス','自由エネルギー']},
+ {id:'mc',n:'測度集中',path:['bench','qml','vqa'],
+  line:'次元が上がると、確率分布はほとんどの点で平均に張り付く。勾配も内積も、そこで区別がつかなくなる。バレンプラトーと指数集中は、この一つの現象の別名だ。',
+  w:['Haar測度','ユニタリ t-design','Levyの補題','動的リー代数']},
+ {id:'tn',n:'テンソルネットワーク',path:['qec','sim','bench','qml'],
+  line:'量子状態を小さなテンソルの網で近似する。どこまで近似が効くかが、そのまま「古典で追えるか」の判定になる。優位性の反証側で主力を務める。',
+  w:['MPS','ボンド次元','TEBD','縮約順序']},
+ {id:'ca',n:'計算量仮定',path:['crypto','cx','alg','qml','bench'],
+  line:'「古典では解けない」と言うとき、必ず何かを仮定している。その仮定が離散対数なのか、階層の非崩壊なのか、資源指標の代理なのかで、主張の強さがまったく変わる。',
+  w:['離散対数問題','多項式階層の崩壊','#P困難性']},
+ {id:'sl',n:'統計的学習理論',path:['qml','bench'],
+  line:'訓練データで測った性能が未知のデータでも続く条件を扱う。量子を外しても成立する話で、量子機械学習の評価はこの土俵の上で行われる。',
+  w:['再生核ヒルベルト空間','汎化誤差限界','バイアスと分散']},
+ {id:'co',n:'組合せ最適化',path:['compile','anneal','vqa'],
+  line:'離散の選択肢が爆発する問題を、現実的な時間に押し込む技術。回路のマッピングも、アニーリングの定式化も、QAOAの評価も、ここで測られる。',
+  w:['QUBO','NP困難','ヒューリスティック','緩和と丸め']},
+ {id:'gr',n:'群論と表現論',path:['qec','alg','qml','anneal'],
+  line:'対称性を数え上げるための言語。誤り訂正符号の構成も、同変な回路の設計も、隠れ部分群の発見も、同じ代数から出てくる。',
+  w:['Pauli群','対称群 Sₙ','可換子代数','コセット']}
+];
+
+const L={x0:80,x1:955,y0:75,y1:700};
+const PX=f=>L.x0+f*(L.x1-L.x0);
+const PY=f=>L.y0+f*(L.y1-L.y0);
+const RX=f=>f*(L.x1-L.x0);
+const RY=f=>f*(L.y1-L.y0);
+const HUE={hi:'var(--hi)',mid:'var(--mid)',low:'var(--low)'};
+
+function blobPath(cx,cy,rx,ry,seed,n=18){
+  let s=seed*7919%233280;
+  const rnd=()=>{s=(s*9301+49297)%233280;return s/233280;};
+  const p=[];
+  for(let i=0;i<n;i++){
+    const a=i/n*Math.PI*2, k=.88+rnd()*.22;
+    p.push([cx+Math.cos(a)*rx*k, cy+Math.sin(a)*ry*k]);
+  }
+  let d=`M${p[0][0].toFixed(1)},${p[0][1].toFixed(1)}`;
+  for(let i=0;i<n;i++){
+    const a=p[(i-1+n)%n],b=p[i],c=p[(i+1)%n],e=p[(i+2)%n];
+    const c1=[b[0]+(c[0]-a[0])/6,b[1]+(c[1]-a[1])/6];
+    const c2=[c[0]-(e[0]-b[0])/6,c[1]-(e[1]-b[1])/6];
+    d+=`C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${c[0].toFixed(1)},${c[1].toFixed(1)}`;
+  }
+  return d+'Z';
+}
+function smoothLine(pts){
+  if(pts.length<2) return '';
+  let d=`M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+  for(let i=0;i<pts.length-1;i++){
+    const a=pts[Math.max(0,i-1)],b=pts[i],c=pts[i+1],e=pts[Math.min(pts.length-1,i+2)];
+    const c1=[b[0]+(c[0]-a[0])/6,b[1]+(c[1]-a[1])/6];
+    const c2=[c[0]-(e[0]-b[0])/6,c[1]-(e[1]-b[1])/6];
+    d+=`C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${c[0].toFixed(1)},${c[1].toFixed(1)}`;
+  }
+  return d;
+}
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+let svg=document.getElementById('map');
+let parts=[];
+
+parts.push(`<line class="axis" x1="${L.x0-22}" y1="${L.y0-30}" x2="${L.x0-22}" y2="${L.y1+30}"/>`);
+parts.push(`<line class="axis" x1="${L.x0-30}" y1="${L.y1+34}" x2="${L.x1+20}" y2="${L.y1+34}"/>`);
+parts.push(`<text class="axcap" x="${L.x0-30}" y="${L.y0-38}" text-anchor="start">定理で終わる</text>`);
+parts.push(`<text class="axcap" x="${L.x0-30}" y="${L.y1+66}" text-anchor="start">数値で終わる</text>`);
+parts.push(`<text class="axcap" x="${L.x1+16}" y="${L.y1+66}" text-anchor="end">動かしたい</text>`);
+parts.push(`<text class="axcap" x="${L.x0+150}" y="${L.y1+66}" text-anchor="middle">限界を知りたい</text>`);
+
+parts.push('<g id="blobs">');
+FIELDS.forEach((f,i)=>{
+  parts.push(`<path class="blob" id="b-${f.id}" data-f="${f.id}" d="${blobPath(PX(f.x),PY(f.y),RX(f.rx),RY(f.ry),i+3)}" fill="${HUE[f.layer]}" stroke="${HUE[f.layer]}"/>`);
+});
+parts.push('</g><g id="veinLayer"></g><g id="labels">');
+FIELDS.forEach(f=>{
+  const cls=f.n.length>10?'flabel small':'flabel';
+  parts.push(`<text class="${cls}" x="${PX(f.x)}" y="${PY(f.y)+5}">${esc(f.n)}</text>`);
+});
+parts.push('</g><g id="xs">');
+XS.forEach(o=>{
+  parts.push(`<circle class="xdot" cx="${PX(o.x)}" cy="${PY(o.y)}" r="4"/>`);
+  parts.push(`<text class="xlabel" x="${PX(o.x)}" y="${PY(o.y)-9}">${esc(o.t)}</text>`);
+});
+parts.push('</g><g id="pins"></g>');
+svg.innerHTML=parts.join('');
+
+const veinLayer=document.getElementById('veinLayer');
+const pinLayer=document.getElementById('pins');
+const panel=document.getElementById('panel');
+
+function drawPins(on){
+  if(!on){pinLayer.innerHTML='';return;}
+  pinLayer.innerHTML=PINS.map(p=>{
+    const x=PX(p.x),y=PY(p.y),st=p.stem||34;
+    const textWidth=[...p.label].reduce((width,char)=>width+(char.charCodeAt(0)>255?13:7),0);
+    const boxWidth=Math.max(96,textWidth+20),boxHeight=26;
+    const boxX=x-boxWidth/2;
+    const boxY=y-st-boxHeight;
+    return `<g class="pinGroup"><rect class="pinBox" x="${boxX}" y="${boxY}" width="${boxWidth}" height="${boxHeight}"/>
+      <circle class="pin" cx="${x}" cy="${y}" r="6"/>
+      <text class="pinLabel" x="${x}" y="${boxY+17}">${esc(p.label)}</text></g>`;
+  }).join('');
+}
+function showField(id){
+  const f=FIELDS.find(v=>v.id===id);
+  document.querySelectorAll('.blob').forEach(b=>b.classList.toggle('sel',b.dataset.f===id));
+  panel.style.setProperty('--pc',HUE[f.layer]);
+  panel.innerHTML=`<h2>${esc(f.n)}</h2><p class="q">${esc(f.q)}</p>
+    <p class="note">${esc(f.note)}</p>
+    <div class="rows">
+      <div class="row"><span class="lab">対象</span><span class="val">${f.obj.map(o=>`<span class="chip">${esc(o)}</span>`).join('')}</span></div>
+      <div class="row"><span class="lab">現象</span><span class="val">${f.phe.map(o=>`<span class="chip">${esc(o)}</span>`).join('')}</span></div>
+      <div class="row"><span class="lab">道具</span><span class="val">${f.too.map(o=>`<span class="chip">${esc(o)}</span>`).join('')}</span></div>
+    </div>`;
+}
+function showVein(v){
+  panel.style.setProperty('--pc','var(--gold)');
+  panel.innerHTML=`<h2>${esc(v.n)}</h2><p class="q">層をまたいで通う共通言語</p>
+    <p class="note">${esc(v.line)}</p>
+    <div class="rows">
+      <div class="row"><span class="lab">語彙</span><span class="val">${v.w.map(o=>`<span class="chip">${esc(o)}</span>`).join('')}</span></div>
+      <div class="row"><span class="lab">通る面</span><span class="val">${v.path.map(id=>`<span class="chip">${esc(FIELDS.find(f=>f.id===id).n)}</span>`).join('')}</span></div>
+    </div>`;
+}
+function showPinInfo(){
+  panel.style.setProperty('--pc','var(--gold)');
+  panel.innerHTML=`<h2>研究テーマの位置</h2><p class="q">${PINS.length}件を簡約した名称で表示している</p>
+    <p class="note">ピンは分野の面の上に置いてあり、どの面に落ちるかがそのテーマの立ち位置を表す。下側に集まるほど数値で評価する仕事、左に寄るほど限界を問う仕事になる。同じ面に複数のピンが乗っていても、面の中での位置は互いに異なる。</p>`;
+}
+function reset(){
+  panel.style.setProperty('--pc','var(--rule)');
+  panel.innerHTML=`<h2>面をひとつ選ぶ</h2><p class="q">分野の問い・対象・現象・道具がここに出る</p>
+    <p class="note">上の金色のボタンを押すと、その方法論が通る面が線でつながる。隣り合っていない面が同じ線に乗っていたら、それは平面上の距離より強い結びつきだと思ってよい。</p>`;
+}
+
+let activeVein=null;
+document.getElementById('veinBtns').innerHTML=VEINS.map(v=>
+  `<button class="ctl" type="button" aria-pressed="false" data-v="${v.id}">${v.n}</button>`).join('');
+
+function paintVein(){
+  document.querySelectorAll('.blob').forEach(b=>b.classList.remove('dim'));
+  if(!activeVein){veinLayer.innerHTML='';return;}
+  const v=VEINS.find(x=>x.id===activeVein);
+  const pts=v.path.map(id=>{const f=FIELDS.find(q=>q.id===id);return [PX(f.x),PY(f.y)];});
+  const d=smoothLine(pts);
+  veinLayer.innerHTML=`<path class="veinGhost" d="${d}"/><path class="vein" d="${d}"/>`+
+    pts.map(p=>`<circle class="veinDot" cx="${p[0]}" cy="${p[1]}" r="7"/>`).join('');
+  document.querySelectorAll('.blob').forEach(b=>{
+    if(!v.path.includes(b.dataset.f)) b.classList.add('dim');
+  });
+  showVein(v);
+}
+
+document.getElementById('veinBtns').addEventListener('click',e=>{
+  const b=e.target.closest('.ctl'); if(!b) return;
+  activeVein=(activeVein===b.dataset.v)?null:b.dataset.v;
+  document.querySelectorAll('#veinBtns .ctl').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.v===activeVein)));
+  document.querySelectorAll('.blob').forEach(x=>x.classList.remove('sel'));
+  paintVein();
+  if(!activeVein) reset();
+});
+
+const pinBtn=document.getElementById('pinBtn');
+let pinsOn=false;
+pinBtn.addEventListener('click',()=>{
+  pinsOn=!pinsOn;
+  pinBtn.setAttribute('aria-pressed',String(pinsOn));
+  drawPins(pinsOn);
+  if(pinsOn) showPinInfo(); else reset();
+});
+
+pinLayer.addEventListener('click',e=>{
+  const pin=e.target.closest('.pinGroup'); if(!pin) return;
+  pinLayer.querySelectorAll('.pinGroup').forEach(x=>x.classList.toggle('active',x===pin));
+});
+
+svg.addEventListener('click',e=>{
+  const b=e.target.closest('.blob'); if(!b) return;
+  showField(b.dataset.f);
+});
+
+reset();
+</script>
+</body>
+</html>
