@@ -40,6 +40,7 @@ p{margin:0}
 
 #app{height:100%;display:flex;flex-direction:column;min-height:0}
 
+/* ---------- top bar ---------- */
 .top{flex:0 0 auto;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
   padding:.45rem max(.9rem,env(safe-area-inset-left)) .45rem max(.9rem,env(safe-area-inset-right));
   border-bottom:1px solid var(--rule);background:var(--panel)}
@@ -60,6 +61,7 @@ p{margin:0}
 .view{position:absolute;inset:0;display:none;overflow:auto}
 .view.on{display:block}
 
+/* ---------- shared ---------- */
 .btn{border:1px solid var(--ink);background:var(--ink);color:var(--panel);
   padding:.4rem .95rem;border-radius:7px;cursor:pointer;font-size:1rem;font-weight:500}
 .btn:hover{opacity:.85}
@@ -77,6 +79,7 @@ h3{font-size:.98rem;font-weight:500;margin:0 0 .2rem}
 .lbl{font-size:.76rem;color:var(--soft);margin-right:.1rem}
 .m{font-family:var(--math);font-size:1.08em}
 
+/* ---------- bloch ---------- */
 #v-bloch.on{display:flex;flex-direction:column;overflow:hidden}
 .b-main{flex:1 1 auto;min-height:0;display:flex;gap:1rem;align-items:center;justify-content:center;
   padding:.4rem max(1rem,env(safe-area-inset-left)) 0 max(1rem,env(safe-area-inset-right))}
@@ -111,6 +114,7 @@ h3{font-size:.98rem;font-weight:500;margin:0 0 .2rem}
 .frac{display:inline-flex;flex-direction:column;vertical-align:middle;font-size:.82em;line-height:1.15;text-align:center}
 .frac span:first-child{border-bottom:1.2px solid currentColor;padding:0 .18em}
 
+/* ---------- gates ---------- */
 .g-wrap{display:grid;gap:1.4rem;align-items:start;grid-template-columns:minmax(0,1fr);
   padding:1rem max(1rem,env(safe-area-inset-left)) 1.4rem}
 @media (min-width:980px){.g-wrap{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}}
@@ -118,13 +122,13 @@ h3{font-size:.98rem;font-weight:500;margin:0 0 .2rem}
 #g-svg{width:100%;height:auto;display:block;max-width:640px}
 .tap{cursor:pointer}
 .tap:hover .tapbg{fill:var(--wash)}
- table{border-collapse:collapse;width:100%;font-family:var(--math);font-size:1.15rem}
- th{font-family:var(--sans);font-size:.76rem;font-weight:400;color:var(--soft);padding:.2rem .4rem;text-align:center;border-bottom:1px solid var(--rule)}
- td{padding:.3rem .4rem;text-align:center;border-bottom:1px solid var(--wash)}
- td.out{color:var(--soft)}
- tr.done td.out{color:var(--ink)}
- tr.now{background:var(--wash)}
- tr.now td{font-weight:500}
+table{border-collapse:collapse;width:100%;font-family:var(--math);font-size:1.15rem}
+th{font-family:var(--sans);font-size:.76rem;font-weight:400;color:var(--soft);padding:.2rem .4rem;text-align:center;border-bottom:1px solid var(--rule)}
+td{padding:.3rem .4rem;text-align:center;border-bottom:1px solid var(--wash)}
+td.out{color:var(--soft)}
+tr.done td.out{color:var(--ink)}
+tr.now{background:var(--wash)}
+tr.now td{font-weight:500}
 .prog{font-size:.8rem;color:var(--soft);margin:.6rem 0 0}
 .mwrap{overflow-x:auto}
 .mat{display:inline-grid;gap:2px;font-family:var(--math);font-size:.95rem}
@@ -140,6 +144,7 @@ h3{font-size:.98rem;font-weight:500;margin:0 0 .2rem}
 .vec div{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:var(--wash);font-size:.9rem}
 .vec div.one{background:var(--state);color:#fff}
 
+/* ---------- anneal ---------- */
 .a-wrap{display:grid;gap:1.2rem;align-items:start;grid-template-columns:minmax(0,1fr);
   padding:1rem max(1rem,env(safe-area-inset-left)) 1.4rem}
 @media (min-width:1000px){.a-wrap{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
@@ -183,6 +188,7 @@ h3{font-size:.98rem;font-weight:500;margin:0 0 .2rem}
 </head>
 <body>
 <div id="app">
+
 <header class="top">
   <h1>量子コンピュータ、さわってみる</h1>
   <nav class="tabs" role="tablist">
@@ -192,7 +198,10 @@ h3{font-size:.98rem;font-weight:500;margin:0 0 .2rem}
   </nav>
   <button class="pill" id="theme" type="button">暗くする</button>
 </header>
+
 <div class="views">
+
+<!-- ================= 1. BLOCH ================= -->
 <section class="view on" id="v-bloch" role="tabpanel">
   <div class="b-main">
     <div class="b-stage"><svg id="b-svg" viewBox="0 0 440 400" role="img" aria-label="ブロッホ球"></svg></div>
@@ -232,6 +241,8 @@ h3{font-size:.98rem;font-weight:500;margin:0 0 .2rem}
       <span class="br"><span class="grid2"><span>1</span><span>1</span><span>1</span><span>−1</span></span></span></span>
   </div>
 </section>
+
+<!-- ================= 2. GATES ================= -->
 <section class="view" id="v-gates" role="tabpanel">
   <div class="g-wrap">
     <div>
@@ -262,11 +273,13 @@ h3{font-size:.98rem;font-weight:500;margin:0 0 .2rem}
         <h3>行列で見る</h3>
         <div class="eqline"><span id="g-mlabel"></span><span class="vec" id="g-vin"></span><span>=</span><span class="vec" id="g-vout"></span></div>
         <div class="mwrap"><div class="mat" id="g-mat"></div></div>
-        <p class="matnote">1 がどの行にも列にも1つずつ。<b>並べ替えているだけなので、逆向きにも戻せます。</b> 基底の状態にかけるときは、入力に対応する列を選べばよいです。</p>
+        <p class="matnote">1 がどの行にも列にも1つずつ。<b>並べ替えているだけなので、逆向きにも戻せます。</b> 基底の状態にかけるときは、入力に対応する列をそのまま取り出すだけです。</p>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ================= 3. ANNEAL ================= -->
 <section class="view" id="v-anneal" role="tabpanel">
   <div class="a-wrap">
     <div>
@@ -286,6 +299,7 @@ h3{font-size:.98rem;font-weight:500;margin:0 0 .2rem}
       </div>
       <p class="status" id="a-status" style="margin-top:.6rem"></p>
     </div>
+
     <div>
       <div class="card">
         <div class="stats">
@@ -310,16 +324,19 @@ h3{font-size:.98rem;font-weight:500;margin:0 0 .2rem}
         <p class="status" id="a-lstatus" style="margin-top:.5rem;font-size:.85rem"></p>
       </div>
     </div>
+
     <div class="card ising">
       <h3>これがイジングモデル</h3>
-      <p>↑ と ↓ の向きを持つ小さな磁石（スピン）が並んだモデルを、<b>イジングモデル</b>と呼びます。チーム分けの問題は、そのままイジングの形にできます。</p>
-      <p>スピンを<span class="m"><i>s</i> = +1</span>（↑）、<span class="m">−1</span>（↓）と書くと、同じ向きどうしなら <span class="m"><i>s_i s_j = +1</span>、逆なら <span class="m">−1</span> となります。</p>
-      <p><b>量子アニーリング</b>では、熱の代わりに量子の揺らぎを使って谷を探します。<b>イジングマシン</b>は、この「いちばん深い谷を探す計算」を実現する装置として理解できます。</p>
+      <p>↑ と ↓ の向きを持つ小さな磁石（スピン）が並んだモデルを、<b>イジングモデル</b>と呼びます。チーム分けの問題は、そのままイジングモデルのエネルギーを下げる問題に置き換えられます。</p>
+      <p>スピンを <span class="m"><i>s</i> = +1</span>（↑）、<span class="m">−1</span>（↓）と書くと、同じ向きどうしなら <span class="m"><i>s<sub>i</sub></i> <i>s<sub>j</sub></i> = +1</span>、違えば <span class="m">−1</span>。だから線でつながった組すべてについて <span class="m">Σ <i>s<sub>i</sub></i> <i>s<sub>j</sub></i></span> を足すと、<b>衝突が少ないほど小さくなります。</b>配送ルート、時間割、ポートフォリオなど、多くの組合せ最適化がこの形に書き直せます。</p>
+      <p><b>量子アニーリング</b>では、熱の代わりに量子の揺らぎを使って谷を探します。<b>イジングマシン</b>は、この「いちばん深い谷を探す計算」を専用の装置で高速に回すものです。</p>
     </div>
   </div>
 </section>
+
 </div>
 </div>
+
 <script>
 (function(){
 "use strict";
@@ -328,6 +345,9 @@ var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 function $(id){return document.getElementById(id);}
 function S(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
 
+/* =====================================================================
+   1. BLOCH
+   ===================================================================== */
 var Bloch=(function(){
   function dot(a,b){return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];}
   function cross(a,b){return [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];}
@@ -335,8 +355,8 @@ var Bloch=(function(){
   function add(a,b){return [a[0]+b[0],a[1]+b[1],a[2]+b[2]];}
   function mul(a,s){return [a[0]*s,a[1]*s,a[2]*s];}
   function rot(v,n,th){var c=Math.cos(th),s=Math.sin(th);
-    return add(add(mul(v,c),mul(cross(n,v),s)),mul(n,dot(n,v)*(1-c)));
-  }
+    return add(add(mul(v,c),mul(cross(n,v),s)),mul(n,dot(n,v)*(1-c)));}
+
   var AZ=-35*Math.PI/180, EL=22*Math.PI/180;
   var RIGHT=[-Math.sin(AZ),Math.cos(AZ),0];
   var UP=[-Math.sin(EL)*Math.cos(AZ),-Math.sin(EL)*Math.sin(AZ),Math.cos(EL)];
@@ -345,6 +365,7 @@ var Bloch=(function(){
   function px(p){return CX+R*dot(p,RIGHT);}
   function py(p){return CY-R*dot(p,UP);}
   function dep(p){return dot(p,CAM);}
+
   var svg=$("b-svg");
   function el(t,a){var e=S(t,a);svg.appendChild(e);return e;}
   el("circle",{cx:CX,cy:CY,r:R,fill:"var(--wash)"});
@@ -352,8 +373,7 @@ var Bloch=(function(){
     var segs=[],cur=null,i;
     for(i=0;i<pts.length;i++){var f=dep(pts[i])>=0;
       if(!cur||cur.f!==f){cur={f:f,d:""};segs.push(cur);}
-      cur.d+=(cur.d?"L":"M")+px(pts[i]).toFixed(1)+" "+py(pts[i]).toFixed(1);
-    }
+      cur.d+=(cur.d?"L":"M")+px(pts[i]).toFixed(1)+" "+py(pts[i]).toFixed(1);}
     segs.forEach(function(s){el("path",{d:s.d,fill:"none",stroke:"var(--rule)","stroke-width":s.f?1.4:1.1,
       "stroke-dasharray":s.f?"none":"4 4",opacity:s.f?1:.5});});
   }
@@ -376,11 +396,13 @@ var Bloch=(function(){
   function label(u,txt,dx,dy){var t=el("text",{x:px(u)+(dx||0),y:py(u)+(dy||0),"text-anchor":"middle",
     "font-family":"var(--math)","font-size":"22px",fill:"var(--ink)"});t.textContent=txt;}
   label([0,0,1.24],"|0⟩",0,-4); label([0,0,-1.24],"|1⟩",0,18); label([1.3,0,0],"|+⟩",6,4);
+
   var V0=[0,0,1], v=V0.slice(), anim=null, axFade=0, running=false, mAxis="z", tally={z:[0,0],x:[0,0]}, busy=false;
   function mvec(){return mAxis==="z"?[0,0,1]:[1,0,0];}
-  function names(){return mAxis==="z"?["0","1":["＋","−"]];}
+  function names(){return mAxis==="z"?["0","1"]:["＋","−"];}
   function say(h){$("b-status").innerHTML=h;}
   function near(a,b){return dot(a,b)>0.999;}
+
   function draw(){
     var tx=px(v),ty=py(v),dx=tx-CX,dy=ty-CY,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,hl=16,hw=6.5;
     var bx=tx-ux*hl,by=ty-uy*hl;
@@ -400,8 +422,8 @@ var Bloch=(function(){
   }
   function paintTally(){var n=names(),t=tally[mAxis];
     $("b-kA").textContent=n[0];$("b-kB").textContent=n[1];$("b-vA").textContent=t[0];$("b-vB").textContent=t[1];
-    $("b-mcap").innerHTML=(mAxis==="z"?"上から測って":"横から測って")+" <b>"+n[0]+"</b> が出る確率";
-  }
+    $("b-mcap").innerHTML=(mAxis==="z"?"上から測って":"横から測って")+" <b>"+n[0]+"</b> が出る確率";}
+
   function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
   function loop(ts){
     var live=false;
@@ -418,14 +440,15 @@ var Bloch=(function(){
   function showAxis(n){var a=mul(n,-1.34),b=mul(n,1.34);
     axLine.setAttribute("x1",px(a));axLine.setAttribute("y1",py(a));axLine.setAttribute("x2",px(b));axLine.setAttribute("y2",py(b));
     axFade=1;kick();}
-  function glide(target,ms,done){var c=Math.max(-1,Math.min(1,dot(v,target)));if(c>0.9999){if(done)done();return;}
+  function glide(target,ms,done){var c=Math.max(-1,Math.min(1,dot(v,target)));
+    if(c>0.9999){if(done)done();return;}
     var n=cross(v,target);if(Math.sqrt(dot(n,n))<1e-6)n=Math.abs(v[2])>0.9?[1,0,0]:[0,0,1];
     spin(norm(n),Math.acos(c),ms,done);}
+
   var GATES={
     X:{n:[1,0,0],msg:"<b>X</b> — x軸のまわりに180°回しました。古典の NOT にあたる操作です。"},
-    Z:{n:[0,0,1],msg:"<b>Z</b> — z軸のまわりに180��回しました。"},
-    H:{n:norm([1,0,1]),msg:"<b>H</b> — 斜めの軸のまわりに180°回しました。古典に対応する操作はありません。"}
-  };
+    Z:{n:[0,0,1],msg:"<b>Z</b> — z軸のまわりに180°回しました。"},
+    H:{n:norm([1,0,1]),msg:"<b>H</b> — 斜めの軸のまわりに180°回しました。古典に対応する操作はありません。"}};
   function gate(g){if(busy)return;var G=GATES[g];showAxis(G.n);
     if(g==="Z"&&Math.abs(Math.abs(v[2])-1)<0.02){say("<b>Z</b> — 矢印がこの軸の上に乗っているので、回しても見た目は変わりません。");return;}
     var wasPlus=g==="H"&&near(v,[1,0,0]);busy=true;
@@ -441,13 +464,20 @@ var Bloch=(function(){
   function burst(){if(busy)return;busy=true;var keep=v.slice(),i=0,n=names();
     say("同じ状態を作り直しながら、20回測ります。");
     (function step(){
-      if(i>=20){v=keep.slice();draw();busy=false;var t=tally[mAxis];say("20回おわり。 <b>"+n[0]+"</b> が "+t[0]+" 回、 <b>"+n[1]+"</b> が "+t[1]+" 回。");return;}
+      if(i>=20){v=keep.slice();draw();busy=false;var t=tally[mAxis];
+        say("20回おわり。 <b>"+n[0]+"</b> が "+t[0]+" 回、 <b>"+n[1]+"</b> が "+t[1]+" 回。");return;}
       var r=sample();tally[mAxis][r]++;paintTally();flash(r);
       if(!reduce){v=r===0?mvec():mul(mvec(),-1);draw();setTimeout(function(){v=keep.slice();draw();},110);}
       i++;setTimeout(step,200);})();}
-  function setAxis(a){if(busy)return;mAxis=a;$("b-axZ").setAttribute("aria-pressed",a==="z");$("b-axX").setAttribute("aria-pressed",a==="x");paintTally();draw();say(a==="z"?"測る向きを <b>上から</b> に変えました。":"測る向きを <b>横から</b> に変えました。矢印は同じままです。");}
-  function reset(){if(busy)return;axFade=0;busy=true;glide(V0,420,function(){v=V0.slice();draw();busy=false;say("|0⟩ に戻しました。");});}
-  [].slice.call(document.querySelectorAll("[data-bgate]")).forEach(function(b){b.addEventListener("click",function(){gate(b.getAttribute("data-bgate"));});});
+  function setAxis(a){if(busy)return;mAxis=a;
+    $("b-axZ").setAttribute("aria-pressed",a==="z");$("b-axX").setAttribute("aria-pressed",a==="x");
+    paintTally();draw();
+    say(a==="z"?"測る向きを <b>上から</b> に変えました。":"測る向きを <b>横から</b> に変えました。矢印は同じままです。");}
+  function reset(){if(busy)return;axFade=0;busy=true;
+    glide(V0,420,function(){v=V0.slice();draw();busy=false;say("|0⟩ に戻しました。");});}
+
+  [].slice.call(document.querySelectorAll("[data-bgate]")).forEach(function(b){
+    b.addEventListener("click",function(){gate(b.getAttribute("data-bgate"));});});
   $("b-reset").addEventListener("click",reset);
   $("b-axZ").addEventListener("click",function(){setAxis("z");});
   $("b-axX").addEventListener("click",function(){setAxis("x");});
@@ -455,98 +485,352 @@ var Bloch=(function(){
   $("b-burst").addEventListener("click",burst);
   $("b-clear").addEventListener("click",function(){tally={z:[0,0],x:[0,0]};paintTally();say("数をゼロに戻しました。");});
   paintTally();draw();
-  return {key:function(k){if(k==="x"||k==="z"||k==="h")gate(k.toUpperCase());else if(k==="r")reset(); else if(k==="m")measure();}};
+  return {key:function(k){
+    if(k==="x"||k==="z"||k==="h")gate(k.toUpperCase());
+    else if(k==="r")reset(); else if(k==="m")measure();}};
 })();
 
+/* =====================================================================
+   2. GATES
+   ===================================================================== */
 var Gates=(function(){
   var MODES={
-    cnot:{n:2,title:"CNOT — 上が1のときだけ、下を反転する",desc:"古典のゲートが入力を2つとったように、量子にも複数の量子ビットを操作するゲートがあります。",wires:["q₀","q₁"],locked:{},gates:[{kind:"cx",ctrl:0,tgt:1,x:.5}],note:"上のビットは何も変わりません。下のビットだけが、上が1のときに反転します。"},
-    swap:{n:2,title:"SWAP — 2つの値を入れ替える",desc:"名前のとおり、2本の線を流れる値が入れ替わります。",wires:["q₀","q₁"],locked:{},gates:[{kind:"swap",pair:[0,1],x:.5}],note:"入れ替えるだけなので、もう一度かければ元に戻ります。"},
-    ccx:{n:3,title:"Toffoli — 上2つが両方1のときだけ、下を反転する",desc:"一番下を 0 にしておくと、出てくるのは上2つの AND です。古典の AND が、この形で量子回路の中に入っています。",wires:["q₀","q₁","q₂"],locked:{},gates:[{kind:"ccx",ctrl:[0,1],tgt:2,x:.5}],note:"一番下を 0 にして、上2つをいろいろ試してみてください。出力の一番下が AND の真理値表になります。"},
-    half:{n:3,title:"半加算器 — Toffoli と CNOT を並べるだけ",desc:"1桁の足し算です。上2本が入力、下は 0 で用意する補助ビット。流したあと、真ん中が和、一番下が桁上がりになります。",wires:["a","b","0"],locked:{2:0},gates:[{kind:"ccx",ctrl:[0,1],tgt:2,x:.36},{kind:"cx",ctrl:0,tgt:1,x:.66}],note:"1 + 1 のときだけ桁上がりが立ちます。古典の半加算器と、真理値表が完全に一致します。"}
-  };
+    cnot:{n:2,title:"CNOT — 上が1のときだけ、下を反転する",
+      desc:"古典のゲートが入力を2つとったように、量子にも複数の量子ビットを操作するゲートがあります。",
+      wires:["q₀","q₁"],locked:{},gates:[{kind:"cx",ctrl:0,tgt:1,x:.5}],
+      note:"上のビットは何も変わりません。下のビットだけが、上が1のときに反転します。"},
+    swap:{n:2,title:"SWAP — 2つの値を入れ替える",desc:"名前のとおり、2本の線を流れる値が入れ替わります。",
+      wires:["q₀","q₁"],locked:{},gates:[{kind:"swap",pair:[0,1],x:.5}],
+      note:"入れ替えるだけなので、もう一度かければ元に戻ります。"},
+    ccx:{n:3,title:"Toffoli — 上2つが両方1のときだけ、下を反転する",
+      desc:"一番下を 0 にしておくと、出てくるのは上2つの AND です。古典の AND が、この形で量子回路の中に入っています。",
+      wires:["q₀","q₁","q₂"],locked:{},gates:[{kind:"ccx",ctrl:[0,1],tgt:2,x:.5}],
+      note:"一番下を 0 にして、上2つをいろいろ試してみてください。出力の一番下が AND の真理値表になります。"},
+    half:{n:3,title:"半加算器 — Toffoli と CNOT を並べるだけ",
+      desc:"1桁の足し算です。上2本が入力、下は 0 で用意する補助ビット。流したあと、真ん中が和、一番下が桁上がりになります。",
+      wires:["a","b","0"],locked:{2:0},gates:[{kind:"ccx",ctrl:[0,1],tgt:2,x:.36},{kind:"cx",ctrl:0,tgt:1,x:.66}],
+      note:"1 + 1 のときだけ桁上がりが立ちます。古典の半加算器と、真理値表が完全に一致します。"}};
   var M=MODES.cnot,bits=[0,0,0],outBits=null,tried={},busy=false;
   function free(){var a=[],i;for(i=0;i<M.n;i++)if(!(i in M.locked))a.push(i);return a;}
   function idx(b){var v=0,i;for(i=0;i<M.n;i++)v=v*2+b[i];return v;}
   function keyOf(b){return b.slice(0,M.n).join("");}
-  function apply(b,g){var c=b.slice();if(g.kind==="cx")c[g.tgt]^=c[g.ctrl];else if(g.kind==="ccx")c[g.tgt]^=(c[g.ctrl[0]]&c[g.ctrl[1]]);else{var t=c[g.pair[0]];c[g.pair[0]]=c[g.pair[1]];c[g.pair[1]]=t;}return c;}
+  function apply(b,g){var c=b.slice();
+    if(g.kind==="cx")c[g.tgt]^=c[g.ctrl];
+    else if(g.kind==="ccx")c[g.tgt]^=(c[g.ctrl[0]]&c[g.ctrl[1]]);
+    else{var t=c[g.pair[0]];c[g.pair[0]]=c[g.pair[1]];c[g.pair[1]]=t;}
+    return c;}
   function runAll(b){var c=b.slice();M.gates.forEach(function(g){c=apply(c,g);});return c;}
   function say(h){$("g-status").innerHTML=h;}
+
   var svg=$("g-svg"),X0=105,X1=460,toks=[],outBoxes=[],inBoxes=[];
   function wy(i){return 48+i*62;}
   function gx(g){return X0+(X1-X0)*g.x;}
   function build(){
     while(svg.firstChild)svg.removeChild(svg.firstChild);
-    toks=[];outBoxes=[];inBoxes=[];svg.setAttribute("viewBox","0 0 600 "+(M.n===2?178:240));
-    for(var i=0;i<M.n;i++){var y=wy(i);svg.appendChild(S("line",{x1:X0,y1:y,x2:X1,y2:y,stroke:"var(--rule)","stroke-width":2}));var lb=S("text",{x:22,y:y+6,"font-family":"var(--math)","font-size":"17px",fill:"var(--soft)"});lb.textContent=M.wires[i];svg.appendChild(lb);inBoxes.push(box(66,y,i,!(i in M.locked)));outBoxes.push(box(500,y,-1,false));}
+    toks=[];outBoxes=[];inBoxes=[];
+    svg.setAttribute("viewBox","0 0 600 "+(M.n===2?178:240));
+    for(var i=0;i<M.n;i++){var y=wy(i);
+      svg.appendChild(S("line",{x1:X0,y1:y,x2:X1,y2:y,stroke:"var(--rule)","stroke-width":2}));
+      var lb=S("text",{x:22,y:y+6,"font-family":"var(--math)","font-size":"17px",fill:"var(--soft)"});lb.textContent=M.wires[i];svg.appendChild(lb);
+      inBoxes.push(box(66,y,i,!(i in M.locked)));outBoxes.push(box(500,y,-1,false));}
     M.gates.forEach(drawGate);
-    for(var j=0;j<M.n;j++){var t=S("g",{opacity:0});var c=S("circle",{cx:0,cy:0,r:14,fill:"var(--panel)",stroke:"var(--state)","stroke-width":2.5});var x=S("text",{x:0,y:6,"text-anchor":"middle","font-family":"var(--math)","font-size":"17px",fill:"var(--ink)"});t.appendChild(c);t.appendChild(x);svg.appendChild(t);toks.push({g:t,c:c,t:x});}
+    for(var j=0;j<M.n;j++){var t=S("g",{opacity:0});
+      var c=S("circle",{cx:0,cy:0,r:14,fill:"var(--panel)",stroke:"var(--state)","stroke-width":2.5});
+      var x=S("text",{x:0,y:6,"text-anchor":"middle","font-family":"var(--math)","font-size":"17px",fill:"var(--ink)"});
+      t.appendChild(c);t.appendChild(x);svg.appendChild(t);toks.push({g:t,c:c,t:x});}
     paintIO();
   }
-  function box(cx,y,wire,click){var g=S("g",click?{"class":"tap",tabindex:"0",role:"button"}:{})
+  function box(cx,y,wire,click){
+    var g=S("g",click?{"class":"tap",tabindex:"0",role:"button"}:{});
     g.appendChild(S("rect",{x:cx-19,y:y-19,width:38,height:38,rx:8,fill:"transparent","class":"tapbg"}));
     var r=S("rect",{x:cx-15,y:y-15,width:30,height:30,rx:6,fill:"var(--panel)",stroke:"var(--rule)","stroke-width":1.5});
     var t=S("text",{x:cx,y:y+6,"text-anchor":"middle","font-family":"var(--math)","font-size":"18px",fill:"var(--ink)"});
     g.appendChild(r);g.appendChild(t);svg.appendChild(g);
-    if(click){var flip=function(){if(busy)return;bits[wire]^=1;outBits=null;paintIO();paintTable();syncMatrix();say("入力を <b>"+keyOf(bits)+"</b> にしました。流すボタンで確かめてください。");};
-      g.addEventListener("click",flip);g.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();flip();}});}
+    if(click){var flip=function(){if(busy)return;bits[wire]^=1;outBits=null;paintIO();paintTable();syncMatrix();
+        say("入力を <b>"+keyOf(bits)+"</b> にしました。流すボタンで確かめてください。");};
+      g.addEventListener("click",flip);
+      g.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();flip();}});}
     return {r:r,t:t};
   }
-  function drawGate(g){var x=gx(g);if(g.kind==="swap"){var ys=[wy(g.pair[0]),wy(g.pair[1])];svg.appendChild(S("line",{x1:x,y1:ys[0],x2:x,y2:ys[1],stroke:"var(--ink)","stroke-width":2}));ys.forEach(function(y){svg.appendChild(S("line",{x1:x-8,y1:y-8,x2:x+8,y2:y+8,stroke:"var(--ink)","stroke-width":2.5}));svg.appendChild(S("line",{x1:x-8,y1:y+8,x2:x+8,y2:y-8,stroke:"var(--ink)","stroke-width":2.5}));});return;}
-    var cs=g.kind==="ccx"?g.ctrl:[g.ctrl],all=cs.concat([g.tgt]).map(wy);svg.appendChild(S("line",{x1:x,y1:Math.min.apply(null,all),x2:x,y2:Math.max.apply(null,all),stroke:"var(--ink)","stroke-width":2}));cs.forEach(function(c){svg.appendChild(S("circle",{cx:x,cy:wy(c),r:7,fill:"var(--ink)"}));});var ty=wy(g.tgt);svg.appendChild(S("circle",{cx:x,cy:ty,r:14,fill:"var(--panel)",stroke:"var(--ink)","stroke-width":2}));svg.appendChild(S("line",{x1:x-14,y1:ty,x2:x+14,y2:ty,stroke:"var(--ink)","stroke-width":2}));svg.appendChild(S("line",{x1:x,y1:ty-14,x2:x,y2:ty+14,stroke:"var(--ink)","stroke-width":2}));}
-  function style(b,val){b.t.textContent=val===null?"":String(val);b.r.setAttribute("fill",val===1?"var(--state)":"var(--panel)");b.r.setAttribute("stroke",val===1?"var(--state)":"var(--rule)");b.t.setAttribute("fill",val===1?"#fff":"var(--ink)");}
+  function drawGate(g){var x=gx(g);
+    if(g.kind==="swap"){var ys=[wy(g.pair[0]),wy(g.pair[1])];
+      svg.appendChild(S("line",{x1:x,y1:ys[0],x2:x,y2:ys[1],stroke:"var(--ink)","stroke-width":2}));
+      ys.forEach(function(y){
+        svg.appendChild(S("line",{x1:x-8,y1:y-8,x2:x+8,y2:y+8,stroke:"var(--ink)","stroke-width":2.5}));
+        svg.appendChild(S("line",{x1:x-8,y1:y+8,x2:x+8,y2:y-8,stroke:"var(--ink)","stroke-width":2.5}));});return;}
+    var cs=g.kind==="ccx"?g.ctrl:[g.ctrl],all=cs.concat([g.tgt]).map(wy);
+    svg.appendChild(S("line",{x1:x,y1:Math.min.apply(null,all),x2:x,y2:Math.max.apply(null,all),stroke:"var(--ink)","stroke-width":2}));
+    cs.forEach(function(c){svg.appendChild(S("circle",{cx:x,cy:wy(c),r:7,fill:"var(--ink)"}));});
+    var ty=wy(g.tgt);
+    svg.appendChild(S("circle",{cx:x,cy:ty,r:14,fill:"var(--panel)",stroke:"var(--ink)","stroke-width":2}));
+    svg.appendChild(S("line",{x1:x-14,y1:ty,x2:x+14,y2:ty,stroke:"var(--ink)","stroke-width":2}));
+    svg.appendChild(S("line",{x1:x,y1:ty-14,x2:x,y2:ty+14,stroke:"var(--ink)","stroke-width":2}));}
+  function style(b,val){b.t.textContent=val===null?"":String(val);
+    b.r.setAttribute("fill",val===1?"var(--state)":"var(--panel)");
+    b.r.setAttribute("stroke",val===1?"var(--state)":"var(--rule)");
+    b.t.setAttribute("fill",val===1?"#fff":"var(--ink)");}
   function paintIO(){for(var i=0;i<M.n;i++){style(inBoxes[i],bits[i]);style(outBoxes[i],outBits?outBits[i]:null);}}
-  function flow(done){if(busy)return;busy=true;outBits=null;paintIO();var cur=bits.slice(),applied=0,t0=0,order=M.gates.slice().sort(function(a,b){return a.x-b.x;});toks.forEach(function(t){t.g.setAttribute("opacity",1);});
-    function place(p){var x=X0+(X1-X0)*p;for(var j=0;j<M.n;j++){toks[j].g.setAttribute("transform","translate("+x.toFixed(1)+","+wy(j)+")");toks[j].t.textContent=String(cur[j]);toks[j].c.setAttribute("fill",cur[j]===1?"var(--state)":"var(--panel)");toks[j].t.setAttribute("fill",cur[j]===1?"#fff":"var(--ink)");}}
-    function finish(){toks.forEach(function(t){t.g.setAttribute("opacity",0);});outBits=cur.slice();paintIO();syncMatrix();tried[keyOf(bits)]=true;paintTable();busy=false;say("<b>"+keyOf(bits)+"</b> を流したら <b>"+keyOf(outBits)+"</b> が出ました。");if(done)done();}
+
+  function flow(done){if(busy)return;busy=true;outBits=null;paintIO();
+    var cur=bits.slice(),applied=0,t0=0,order=M.gates.slice().sort(function(a,b){return a.x-b.x;});
+    toks.forEach(function(t){t.g.setAttribute("opacity",1);});
+    function place(p){var x=X0+(X1-X0)*p;
+      for(var j=0;j<M.n;j++){toks[j].g.setAttribute("transform","translate("+x.toFixed(1)+","+wy(j)+")");
+        toks[j].t.textContent=String(cur[j]);
+        toks[j].c.setAttribute("fill",cur[j]===1?"var(--state)":"var(--panel)");
+        toks[j].t.setAttribute("fill",cur[j]===1?"#fff":"var(--ink)");}}
+    function finish(){toks.forEach(function(t){t.g.setAttribute("opacity",0);});
+      outBits=cur.slice();paintIO();syncMatrix();tried[keyOf(bits)]=true;paintTable();busy=false;
+      say("<b>"+keyOf(bits)+"</b> を流したら <b>"+keyOf(outBits)+"</b> が出ました。");if(done)done();}
     if(reduce){cur=runAll(bits);finish();return;}
-    function step(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1500),x=X0+(X1-X0)*p;while(applied<order.length&&x>=gx(order[applied])){var before=cur.slice();cur=apply(cur,order[applied]);for(var j=0;j<M.n;j++)if(before[j]!==cur[j])pop(j);applied++;}place(p);if(p<1)requestAnimationFrame(step);else finish();}
+    function step(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1500),x=X0+(X1-X0)*p;
+      while(applied<order.length&&x>=gx(order[applied])){var before=cur.slice();cur=apply(cur,order[applied]);
+        for(var j=0;j<M.n;j++)if(before[j]!==cur[j])pop(j);applied++;}
+      place(p);if(p<1)requestAnimationFrame(step);else finish();}
     place(0);requestAnimationFrame(step);}
-  function pop(j){var c=toks[j].c;c.setAttribute("r",20);c.setAttribute("stroke","var(--hit)");setTimeout(function(){c.setAttribute("r",14);c.setAttribute("stroke","var(--state)");},220);}
-  function rows(){var f=free(),out=[],total=1<<f.length,k,i;for(k=0;k<total;k++){var b=[0,0,0];for(i in M.locked)b[i]=M.locked[i];for(i=0;i<f.length;i++)b[f[i]]=(k>>(f.length-1-i))&1;out.push(b.slice(0,M.n));}return out;}
-  function paintTable(){$("g-thead").innerHTML="<tr><th>入力</th><th></th><th>出力</th></tr>";var bd=$("g-tbody");bd.innerHTML="";var rs=rows(),n=0;rs.forEach(function(b){var k=b.join(""),on=!!tried[k];if(on)n++;var tr=document.createElement("tr");tr.className=(on?"done":"")+(k===keyOf(bits)?" now":"");tr.innerHTML="<td>"+k+"</td><td style='color:var(--soft)'>→</td><td class='out'>"+(on?runAll(b).join(""):"？")+"</td>";bd.appendChild(tr);});$("g-prog").textContent=rs.length+"通りのうち "+n+"通り 確認ずみ";$("g-all").textContent=rs.length+"通り全部ためす";}
+  function pop(j){var c=toks[j].c;c.setAttribute("r",20);c.setAttribute("stroke","var(--hit)");
+    setTimeout(function(){c.setAttribute("r",14);c.setAttribute("stroke","var(--state)");},220);}
+
+  function rows(){var f=free(),out=[],total=1<<f.length,k,i;
+    for(k=0;k<total;k++){var b=[0,0,0];for(i in M.locked)b[i]=M.locked[i];
+      for(i=0;i<f.length;i++)b[f[i]]=(k>>(f.length-1-i))&1;out.push(b.slice(0,M.n));}return out;}
+  function paintTable(){$("g-thead").innerHTML="<tr><th>入力</th><th></th><th>出力</th></tr>";
+    var bd=$("g-tbody");bd.innerHTML="";var rs=rows(),n=0;
+    rs.forEach(function(b){var k=b.join(""),on=!!tried[k];if(on)n++;
+      var tr=document.createElement("tr");tr.className=(on?"done":"")+(k===keyOf(bits)?" now":"");
+      tr.innerHTML="<td>"+k+"</td><td style='color:var(--soft)'>→</td><td class='out'>"+(on?runAll(b).join(""):"？")+"</td>";
+      bd.appendChild(tr);});
+    $("g-prog").textContent=rs.length+"通りのうち "+n+"通り 確認ずみ";
+    $("g-all").textContent=rs.length+"通り全部ためす";}
   function lab(i){var s="",j;for(j=0;j<M.n;j++)s=((i>>j)&1)+s;return "|"+s+"⟩";}
-  function buildMatrix(){var N=1<<M.n,g=$("g-mat"),i,j;g.innerHTML="";g.style.gridTemplateColumns="auto repeat("+N+",30px)";var c0=document.createElement("div");c0.className="hd";g.appendChild(c0);for(j=0;j<N;j++){var h=document.createElement("div");h.className="hd";h.id="g-ch"+j;h.textContent=lab(j);g.appendChild(h);}for(i=0;i<N;i++){var rh=document.createElement("div");rh.className="hd";rh.id="g-rh"+i;rh.textContent=lab(i);g.appendChild(rh);for(j=0;j<N;j++){var b=[],k;for(k=M.n-1;k>=0;k--)b.push((j>>k)&1);var one=idx(runAll(b))===i,c=document.createElement("div");c.className=one?"one":"";c.id="g-c"+i+"_"+j;c.textContent=one?"1":"0";g.appendChild(c);}}$("g-mlabel").textContent=(M.gates.length>1?"回路全体の行列":"ゲートの行列")+" ×";}
-  function syncMatrix(){var N=1<<M.n,inI=idx(bits),outI=idx(runAll(bits)),i,j;for(j=0;j<N;j++){$("g-ch"+j).className="hd"+(j===inI?" colhd":"");for(i=0;i<N;i++){var c=$("g-c"+i+"_"+j);c.className=(c.textContent==="1"?"one":"")+(j===inI?" col":"");}}for(i=0;i<N;i++)$("g-rh"+i).className="hd"+(i===outI&&outBits?" colhd":"");vec($("g-vin"),N,inI,true);vec($("g-vout"),N,outI,!!outBits);}
-  function vec(host,N,hot,show){host.innerHTML="";for(var i=0;i<N;i++){var d=document.createElement("div");if(show){d.textContent=i===hot?"1":"0";if(i===hot)d.className="one";}host.appendChild(d);}}
-  function setMode(m){if(busy)return;M=MODES[m];bits=[0,0,0];outBits=null;tried={};for(var i in M.locked)bits[i]=M.locked[i];[].slice.call(document.querySelectorAll("[data-gmode]")).forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-gmode")===m);});$("g-title").textContent=M.title;$("g-desc").textContent=M.desc;build();paintTable();buildMatrix();syncMatrix();say(M.note);}
-  [].slice.call(document.querySelectorAll("[data-gmode]")).forEach(function(b){b.addEventListener("click",function(){setMode(b.getAttribute("data-gmode"));});});
+  function buildMatrix(){var N=1<<M.n,g=$("g-mat"),i,j;g.innerHTML="";
+    g.style.gridTemplateColumns="auto repeat("+N+",30px)";
+    var c0=document.createElement("div");c0.className="hd";g.appendChild(c0);
+    for(j=0;j<N;j++){var h=document.createElement("div");h.className="hd";h.id="g-ch"+j;h.textContent=lab(j);g.appendChild(h);}
+    for(i=0;i<N;i++){var rh=document.createElement("div");rh.className="hd";rh.id="g-rh"+i;rh.textContent=lab(i);g.appendChild(rh);
+      for(j=0;j<N;j++){var b=[],k;for(k=M.n-1;k>=0;k--)b.push((j>>k)&1);
+        var one=idx(runAll(b))===i,c=document.createElement("div");
+        c.className=one?"one":"";c.id="g-c"+i+"_"+j;c.textContent=one?"1":"0";g.appendChild(c);}}
+    $("g-mlabel").textContent=(M.gates.length>1?"回路全体の行列":"ゲートの行列")+" ×";}
+  function syncMatrix(){var N=1<<M.n,inI=idx(bits),outI=idx(runAll(bits)),i,j;
+    for(j=0;j<N;j++){$("g-ch"+j).className="hd"+(j===inI?" colhd":"");
+      for(i=0;i<N;i++){var c=$("g-c"+i+"_"+j);c.className=(c.textContent==="1"?"one":"")+(j===inI?" col":"");}}
+    for(i=0;i<N;i++)$("g-rh"+i).className="hd"+(i===outI&&outBits?" colhd":"");
+    vec($("g-vin"),N,inI,true);vec($("g-vout"),N,outI,!!outBits);}
+  function vec(host,N,hot,show){host.innerHTML="";
+    for(var i=0;i<N;i++){var d=document.createElement("div");
+      if(show){d.textContent=i===hot?"1":"0";if(i===hot)d.className="one";}host.appendChild(d);}}
+
+  function setMode(m){if(busy)return;M=MODES[m];bits=[0,0,0];outBits=null;tried={};
+    for(var i in M.locked)bits[i]=M.locked[i];
+    [].slice.call(document.querySelectorAll("[data-gmode]")).forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-gmode")===m);});
+    $("g-title").textContent=M.title;$("g-desc").textContent=M.desc;
+    build();paintTable();buildMatrix();syncMatrix();say(M.note);}
+  [].slice.call(document.querySelectorAll("[data-gmode]")).forEach(function(b){
+    b.addEventListener("click",function(){setMode(b.getAttribute("data-gmode"));});});
   $("g-run").addEventListener("click",function(){flow();});
   $("g-clear").addEventListener("click",function(){if(busy)return;tried={};outBits=null;paintIO();paintTable();syncMatrix();say("表を消しました。");});
-  $("g-all").addEventListener("click",function(){if(busy)return;var rs=rows(),i=0;(function next(){if(i>=rs.length){say("全部そろいました。");return;}bits=rs[i].slice();i++;paintIO();paintTable();syncMatrix();flow(function(){setTimeout(next,reduce?0:260);});})();});
+  $("g-all").addEventListener("click",function(){if(busy)return;var rs=rows(),i=0;
+    (function next(){if(i>=rs.length){say("全部そろいました。");return;}
+      bits=rs[i].slice();i++;paintIO();paintTable();syncMatrix();
+      flow(function(){setTimeout(next,reduce?0:260);});})();});
   setMode("cnot");
   return {key:function(k){if(k==="enter")flow();}};
 })();
 
+/* =====================================================================
+   3. ANNEAL
+   ===================================================================== */
 var Anneal=(function(){
-  var P=[[0.715,0.869],[0.323,0.77],[0.171,0.5],[0.709,0.204],[0.888,0.353],[0.501,0.212],[0.586,0.57],[0.768,0.633],[0.65,0.381],[0.328,0.328],[0.129,0.817],[0.552,0.773],[0.902,0.841],[0.404,0.696],[0.233,0.796],[0.798,0.194]];
+  var P=[[0.715,0.869],[0.323,0.77],[0.171,0.5],[0.709,0.204],[0.888,0.353],[0.501,0.212],[0.586,0.57],[0.768,0.633],[0.65,0.381],[0.328,0.328],[0.129,0.817],[0.552,0.773],[0.902,0.841],[0.404,0.573],[0.15,0.322],[0.301,0.148]];
   var E=[[0,12],[0,11],[0,7],[1,10],[1,13],[1,11],[2,14],[2,9],[2,13],[3,8],[3,5],[3,4],[4,8],[4,7],[5,9],[5,15],[6,13],[6,7],[6,8],[7,12],[5,8],[9,14],[9,15],[2,10],[10,13],[6,11],[11,12],[14,15]];
   var S0=[1,-1,-1,1,-1,1,-1,1,-1,-1,-1,1,1,-1,1,1];
-  var N=P.length, A=[], i;for(i=0;i<N;i++)A.push([]);E.forEach(function(e){A[e[0]].push(e[1]);A[e[1]].push(e[0]);});
-  var OPT=(function(){var best=1e9,m,c,k;for(m=0;m<(1<<N);m++){c=0;for(k=0;k<E.length;k++)if(((m>>E[k][0])&1)===((m>>E[k][1])&1))c++;if(c<best)best=c;}return best;})();
+  var N=P.length, A=[], i;
+  for(i=0;i<N;i++)A.push([]);
+  E.forEach(function(e){A[e[0]].push(e[1]);A[e[1]].push(e[0]);});
+  var OPT=(function(){var best=1e9,m,c,k;for(m=0;m<(1<<N);m++){c=0;
+    for(k=0;k<E.length;k++)if(((m>>E[k][0])&1)===((m>>E[k][1])&1))c++;if(c<best)best=c;}return best;})();
   $("a-opt").textContent=OPT;
+
   var s=S0.slice(), busy=false, trace=[], T0=2.2, T1=0.08;
   function energy(){var c=0;E.forEach(function(e){if(s[e[0]]===s[e[1]])c++;});return c;}
   function dE(k){var same=0,diff=0;A[k].forEach(function(j){if(s[j]===s[k])same++;else diff++;});return diff-same;}
   function say(h){$("a-status").innerHTML=h;}
+
   var svg=$("a-graph"), edgeEls=[], nodeEls=[];
   function X(k){return 34+P[k][0]*452;}
   function Y(k){return 22+P[k][1]*376;}
-  E.forEach(function(e){var l=S("line",{x1:X(e[0]),y1:Y(e[0]),x2:X(e[1]),y2:Y(e[1]),"stroke-linecap":"round"});svg.appendChild(l);edgeEls.push(l);});
-  for(i=0;i<N;i++)(function(k){var g=S("g",{"class":"node",tabindex:"0",role:"button"});var c=S("circle",{cx:X(k),cy:Y(k),r:18,stroke:"var(--panel)","stroke-width":3});var t=S("text",{x:X(k),y:Y(k)+6,"text-anchor":"middle","font-size":"17px","font-weight":"700","pointer-events":"none"});g.appendChild(c);g.appendChild(t);svg.appendChild(g);nodeEls.push({c:c,t:t});var flip=function(){if(busy)return;s[k]=-s[k];trace=[];paint();drawTrace();temp(0);var e=energy();say("入れ替えました。衝突 <b>"+e+"</b>。"+(e===OPT?" 手で最小にたどり着きました。":""));};g.addEventListener("click",flip);g.addEventListener("keydown",function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();flip();}});})(i);
-  function paint(){E.forEach(function(e,k){var bad=s[e[0]]===s[e[1]],l=edgeEls[k];l.setAttribute("stroke",bad?"var(--clash)":"var(--rule)");l.setAttribute("stroke-width",bad?4:1.6);l.setAttribute("opacity",bad?1:.9);});for(var k=0;k<N;k++){var up=s[k]===1;nodeEls[k].c.style.fill=up?"var(--teamA)":"var(--teamB)";nodeEls[k].t.textContent=up?"↑":"↓";nodeEls[k].t.setAttribute("fill",up?"#fff":"#1B1F2A");}var en=energy(),b=$("a-energy");b.textContent=en;b.className="big"+(en===OPT?" goal":"");$("a-flag").textContent=en===OPT?"この問題でいちばん少ない状態です":"";}
+  E.forEach(function(e){var l=S("line",{x1:X(e[0]),y1:Y(e[0]),x2:X(e[1]),y2:Y(e[1]),"stroke-linecap":"round"});
+    svg.appendChild(l);edgeEls.push(l);});
+  for(i=0;i<N;i++)(function(k){
+    var g=S("g",{"class":"node",tabindex:"0",role:"button"});
+    var c=S("circle",{cx:X(k),cy:Y(k),r:18,stroke:"var(--panel)","stroke-width":3});
+    var t=S("text",{x:X(k),y:Y(k)+6,"text-anchor":"middle","font-size":"17px","font-weight":"700","pointer-events":"none"});
+    g.appendChild(c);g.appendChild(t);svg.appendChild(g);nodeEls.push({c:c,t:t});
+    var flip=function(){if(busy)return;s[k]=-s[k];trace=[];paint();drawTrace();temp(0);
+      var e=energy();say("入れ替えました。衝突 <b>"+e+"</b>。"+(e===OPT?" 手で最小にたどり着きました。":""));};
+    g.addEventListener("click",flip);
+    g.addEventListener("keydown",function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();flip();}});
+  })(i);
+
+  function paint(){
+    E.forEach(function(e,k){var bad=s[e[0]]===s[e[1]],l=edgeEls[k];
+      l.setAttribute("stroke",bad?"var(--clash)":"var(--rule)");
+      l.setAttribute("stroke-width",bad?4:1.6);l.setAttribute("opacity",bad?1:.9);});
+    for(var k=0;k<N;k++){var up=s[k]===1;
+      nodeEls[k].c.style.fill=up?"var(--teamA)":"var(--teamB)";
+      nodeEls[k].t.textContent=up?"↑":"↓";
+      nodeEls[k].t.setAttribute("fill",up?"#fff":"#1B1F2A");}
+    var en=energy(),b=$("a-energy");b.textContent=en;b.className="big"+(en===OPT?" goal":"");
+    $("a-flag").textContent=en===OPT?"この問題でいちばん少ない状態です":"";
+  }
   function temp(f){$("a-temp").style.width=(Math.max(0,Math.min(1,f))*100).toFixed(1)+"%";}
-  var tr=$("a-trace");var trLine=S("polyline",{fill:"none",stroke:"var(--ink)","stroke-width":1.8,"stroke-linejoin":"round"});var trOpt=S("line",{x1:0,x2:320,stroke:"var(--state)","stroke-width":1.2,"stroke-dasharray":"4 4"});var trOptL=S("text",{x:316,"text-anchor":"end","font-size":"10px",fill:"var(--state)"});trOptL.textContent="最小";tr.appendChild(trOpt);tr.appendChild(trOptL);tr.appendChild(trLine);var TMAX=20;function ty(e){return 8+(1-e/TMAX)*80;}trOpt.setAttribute("y1",ty(OPT));trOpt.setAttribute("y2",ty(OPT));trOptL.setAttribute("y",ty(OPT)-4);function drawTrace(){if(trace.length<2){trLine.setAttribute("points","");return;}var n=trace.length,pts=[],k,step=Math.max(1,Math.floor(n/220));for(k=0;k<n;k+=step)pts.push((k/(n-1)*320).toFixed(1)+","+ty(trace[k]).toFixed(1));pts.push("320,"+ty(trace[n-1]).toFixed(1));trLine.setAttribute("points",pts.join(" "));}
+
+  var tr=$("a-trace");
+  var trLine=S("polyline",{fill:"none",stroke:"var(--ink)","stroke-width":1.8,"stroke-linejoin":"round"});
+  var trOpt=S("line",{x1:0,x2:320,stroke:"var(--state)","stroke-width":1.2,"stroke-dasharray":"4 4"});
+  var trOptL=S("text",{x:316,"text-anchor":"end","font-size":"10px",fill:"var(--state)"});
+  trOptL.textContent="最小";
+  tr.appendChild(trOpt);tr.appendChild(trOptL);tr.appendChild(trLine);
+  var TMAX=20;
+  function ty(e){return 8+(1-e/TMAX)*80;}
+  trOpt.setAttribute("y1",ty(OPT));trOpt.setAttribute("y2",ty(OPT));trOptL.setAttribute("y",ty(OPT)-4);
+  function drawTrace(){if(trace.length<2){trLine.setAttribute("points","");return;}
+    var n=trace.length,pts=[],k,step=Math.max(1,Math.floor(n/220));
+    for(k=0;k<n;k+=step)pts.push((k/(n-1)*320).toFixed(1)+","+ty(trace[k]).toFixed(1));
+    pts.push("320,"+ty(trace[n-1]).toFixed(1));
+    trLine.setAttribute("points",pts.join(" "));}
+
   function shuffle(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t=a[k];a[k]=a[j];a[j]=t;}return a;}
-  function quench(){if(busy)return;busy=true;trace=[energy()];temp(0);say("<b>いきなり冷やす</b> — 衝突が減る入れ替えだけを、減らせなくなるまで続けます。");var order=[],pos=0,improved=false;function refill(){order=shuffle(Array.apply(null,{length:N}).map(function(_,k){return k;}));pos=0;improved=false;}refill();(function tick(){var flipped=false;while(pos<order.length){var k=order[pos++];if(dE(k)<0){s[k]=-s[k];flipped=true;improved=true;break;}}if(!flipped){if(improved){refill();return tick();}busy=false;var e=energy();say("止まりました。衝突 <b>"+e+"</b>。どの1人を入れ替えても、もう減らせません。"+(e>OPT?" でも最小は <b>"+OPT+"</b> です。":""));return;}trace.push(energy());paint();drawTrace();setTimeout(tick,reduce?0:230);})();}
-  function anneal(){if(busy)return;busy=true;trace=[energy()];say("<b>ゆっくり冷やす</b> — はじめは温度が高く、衝突が<b>増える</b>入れ替えもときどき受け入れます。");var SWEEPS=60,TOTAL=SWEEPS*N,DUR=reduce?0:7200,done=0,t0=0;function Tat(k){return T0*Math.pow(T1/T0,k/(TOTAL-1));}function attempt(k){var T=Tat(k),j=Math.floor(Math.random()*N),d=dE(j);if(d<=0||Math.random()<Math.exp(-d/T))s[j]=-s[j];trace.push(energy());}function finish(){var again=true;while(again){again=false;for(var j=0;j<N;j++)if(dE(j)<0){s[j]=-s[j];again=true;}}trace.push(energy());paint();drawTrace();temp(0);busy=false;var e=energy();say(e===OPT?"冷え切りました。衝突 <b>"+e+"</b>。いちばん少ない状態に届きました。":"冷え切りました。衝突 <b>"+e+"</b>。");}if(DUR===0){for(var k=0;k<TOTAL;k++)attempt(k);finish();return;}function frame(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/DUR),target=Math.floor(p*TOTAL);while(done<target){attempt(done);done++;}temp(Math.log(Tat(Math.min(done,TOTAL-1))/T1)/Math.log(T0/T1));paint();drawTrace();if(p<1)requestAnimationFrame(frame);else finish();}temp(1);requestAnimationFrame(frame);}
+  function quench(){if(busy)return;busy=true;trace=[energy()];temp(0);
+    say("<b>いきなり冷やす</b> — 衝突が減る入れ替えだけを、減らせなくなるまで続けます。");
+    var order=[],pos=0,improved=false;
+    function refill(){order=shuffle(Array.apply(null,{length:N}).map(function(_,k){return k;}));pos=0;improved=false;}
+    refill();
+    (function tick(){
+      var flipped=false;
+      while(pos<order.length){var k=order[pos++];if(dE(k)<0){s[k]=-s[k];flipped=true;improved=true;break;}}
+      if(!flipped){if(improved){refill();return tick();}
+        busy=false;var e=energy();
+        say("止まりました。衝突 <b>"+e+"</b>。どの1人を入れ替えても、もう減らせません。"+(e>OPT?" でも最小は <b>"+OPT+"</b> です。":""));
+        return;}
+      trace.push(energy());paint();drawTrace();
+      setTimeout(tick,reduce?0:230);
+    })();
+  }
+  function anneal(){if(busy)return;busy=true;trace=[energy()];
+    say("<b>ゆっくり冷やす</b> — はじめは温度が高く、衝突が<b>増える</b>入れ替えもときどき受け入れます。");
+    var SWEEPS=60,TOTAL=SWEEPS*N,DUR=reduce?0:7200,done=0,t0=0;
+    function Tat(k){return T0*Math.pow(T1/T0,k/(TOTAL-1));}
+    function attempt(k){var T=Tat(k),j=Math.floor(Math.random()*N),d=dE(j);
+      if(d<=0||Math.random()<Math.exp(-d/T))s[j]=-s[j];trace.push(energy());}
+    function finish(){
+      var again=true;while(again){again=false;for(var j=0;j<N;j++)if(dE(j)<0){s[j]=-s[j];again=true;}}
+      trace.push(energy());paint();drawTrace();temp(0);busy=false;var e=energy();
+      say(e===OPT?"冷え切りました。衝突 <b>"+e+"</b>。いちばん少ない状態に届きました。":"冷え切りました。衝突 <b>"+e+"</b>。");}
+    if(DUR===0){for(var k=0;k<TOTAL;k++)attempt(k);finish();return;}
+    function frame(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/DUR),target=Math.floor(p*TOTAL);
+      while(done<target){attempt(done);done++;}
+      temp(Math.log(Tat(Math.min(done,TOTAL-1))/T1)/Math.log(T0/T1));
+      paint();drawTrace();
+      if(p<1)requestAnimationFrame(frame);else finish();}
+    temp(1);requestAnimationFrame(frame);
+  }
   function resetTo(st,msg){if(busy)return;s=st.slice();trace=[];paint();drawTrace();temp(0);say(msg);}
-  $("a-quench").addEventListener("click",quench);$("a-anneal").addEventListener("click",anneal);$("a-reset").addEventListener("click",function(){s=S0.slice();resetTo(S0,"最初の配置に戻しました。衝突 <b>"+energy()+"</b>。")});$("a-random").addEventListener("click",function(){var r=[];for(var k=0;k<N;k++)r.push(Math.random()<.5?1:-1);s=r;resetTo(r,"別の出発点にしました。");});paint();drawTrace();temp(0);say("丸をクリックすると、その人のチームが入れ替わります。まず手で衝突を減らしてみてください。");
-  var G=240,F=[],land=$("a-land");for(i=0;i<G;i++){var x=i/(G-1);var g=function(c,w){return Math.exp(-((x-c)*(x-c))/(2*w*w));};F.push(0.95-0.40*g(0.17,0.07)-0.55*g(0.49,0.075)-1.10*g(0.81,0.10)+0.35*Math.pow(2*x-1,8));}var fmin=Math.min.apply(null,F),fmax=Math.min(1.25,Math.max.apply(null,F));function LX(k){return 14+(k/(G-1))*332;}function LY(f){return 156-((Math.min(f,fmax)-fmin)/(fmax-fmin))*130;}var d="",fill="";for(i=0;i<G;i++){d+=(i?"L":"M")+LX(i).toFixed(1)+" "+LY(F[i]).toFixed(1);}fill=d+"L"+LX(G-1)+" 170L"+LX(0)+" 170Z";land.appendChild(S("path",{d:fill,fill:"var(--wash)"}));land.appendChild(S("path",{d:d,fill:"none",stroke:"var(--soft)","stroke-width":2}));var deep=F.indexOf(fmin);var mk=S("text",{x:LX(deep),y:LY(fmin)+15,"text-anchor":"middle","font-size":"10px",fill:"var(--state)"});mk.textContent="いちばん深い谷";land.appendChild(mk);var trail=[],TRAILN=22;for(i=0;i<TRAILN;i++){var tc=S("circle",{r:3,fill:"var(--clash)",opacity:0});land.appendChild(tc);trail.push(tc);}var ball=S("circle",{r:8,fill:"var(--clash)",stroke:"var(--panel)","stroke-width":2});land.appendChild(ball);var START=Math.round(0.06*(G-1)), lp=START, shown=START, hist=[], lbusy=false;function placeBall(){ball.setAttribute("cx",LX(shown));ball.setAttribute("cy",LY(F[Math.round(shown)])-9;for(var k=0;k<TRAILN;k++){var h=hist[hist.length-1-k];if(h===undefined){trail[k].setAttribute("opacity",0);continue;}trail[k].setAttribute("cx",LX(h));trail[k].setAttribute("cy",LY(F[h])-9);trail[k].setAttribute("opacity",(0.35*(1-k/TRAILN)).toFixed(2));}}
-  function lsay(h){$("a-lstatus").innerHTML=h;}function lrun(T0L,T1L,DUR,total,maxStep,end){if(lbusy)return;lbusy=true;lp=START;shown=START;hist=[];placeBall();var t0=0,done=0;function Tl(k){return T0L===0?0:T0L*Math.pow(T1L/T0L,k/(total-1));}function one(k){var T=Tl(k),q=Math.max(0,Math.min(G-1,lp+(Math.random()<.5?-1:1)*(1+Math.floor(Math.random()*maxStep))));var dd=F[q]-F[lp];if(dd<0||(T>0&&Math.random()<Math.exp(-dd/T)))lp=q;}if(reduce){for(var k=0;k<total;k++)one(k);shown=lp;hist=[];placeBall();lbusy=false;end();return;}function frame(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/DUR),target=Math.floor(p*total);while(done<target){one(done);done++;}shown+=(lp-shown)*0.35;hist.push(lp);if(hist.length>TRAILN)hist.shift();if(Tl(Math.min(done,total-1))<0.03)hist=[];placeBall();if(p<1||Math.abs(shown-lp)>0.5)requestAnimationFrame(frame);else{shown=lp;hist=[];placeBall();lbusy=false;end();}}requestAnimationFrame(frame);}$("a-lquench").addEventListener("click",function(){lsay("温度ゼロ。下り坂にしか動けません。");lrun(0,0,1300,3000,3,function(){lsay("転がり落ちた<b>最初の谷</b>で止まりました。ここから出るには山を登る必要がありますが、温度ゼロでは登れません。");});});$("a-lanneal").addEventListener("click",function(){lsay("温度が高いうちは、ときどき山を<b>登る</b>動きも受け入れます。");lrun(0.35,0.004,7000,21000,8,function(){var x=lp/(G-1);lsay(x>0.65?"山を越えて動き回ったあと、<b>いちばん深い谷</b>に落ち着きました。":"今回は途中の谷で止まりました。もう一度試してみてください。");});});placeBall();lsay("いきなり冷やすと、ゆっくり冷やすを比べてください。");return {key:function(k){if(k==="q")quench();else if(k==="a")anneal();}};})();
-var active="bloch";function show(name,push){if(!$("v-"+name))name="bloch";active=name;[].slice.call(document.querySelectorAll(".view")).forEach(function(v){v.classList.toggle("on",v.id==="v-"+name);});[].slice.call(document.querySelectorAll("[data-tab]")).forEach(function(b){b.setAttribute("aria-selected",b.getAttribute("data-tab")===name);});if(push!==false){try{history.replaceState(null,"","#"+name);}catch(e){}}}
-[].slice.call(document.querySelectorAll("[data-tab]")).forEach(function(b){b.addEventListener("click",function(){show(b.getAttribute("data-tab"));});});window.addEventListener("hashchange",function(){show(location.hash.slice(1),false);});document.addEventListener("keydown",function(e){var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA")return;if(e.metaKey||e.ctrlKey||e.altKey)return;var k=e.key.toLowerCase();if(k==="1"){show("bloch");return;} if(k==="2"){show("gates");return;} if(k==="3"){show("anneal");return;} if(active==="bloch")Bloch.key(k);else if(active==="gates"&&k==="enter"&&e.target===document.body){e.preventDefault();Gates.key(k);}else if(active==="anneal")Anneal.key(k);});
-var tb=$("theme");function dark(){var t=document.documentElement.getAttribute("data-theme");return t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;}tb.addEventListener("click",function(){document.documentElement.setAttribute("data-theme",dark()?"light":"dark");tb.textContent=dark()?"明るくする":"暗くする";});tb.textContent=dark()?"明るくする":"暗くする";show(location.hash.slice(1)||"bloch",false);})();
+  $("a-quench").addEventListener("click",quench);
+  $("a-anneal").addEventListener("click",anneal);
+  $("a-reset").addEventListener("click",function(){s=S0.slice();resetTo(S0,"最初の配置に戻しました。衝突 <b>"+energy()+"</b>。");});
+  $("a-random").addEventListener("click",function(){
+    var r=[];for(var k=0;k<N;k++)r.push(Math.random()<.5?1:-1);
+    s=r;resetTo(r,"別の出発点にしました。");});
+  paint();drawTrace();temp(0);
+  say("丸をクリックすると、その人のチームが入れ替わります。まず手で衝突を減らしてみてください。");
+
+  /* ---------- landscape ---------- */
+  var G=240, F=[], land=$("a-land");
+  for(i=0;i<G;i++){var x=i/(G-1);
+    var g=function(c,w){return Math.exp(-((x-c)*(x-c))/(2*w*w));};
+    F.push(0.95-0.40*g(0.17,0.07)-0.55*g(0.49,0.075)-1.10*g(0.81,0.10)+0.35*Math.pow(2*x-1,8));}
+  var fmin=Math.min.apply(null,F),fmax=Math.min(1.25,Math.max.apply(null,F));
+  function LX(k){return 14+(k/(G-1))*332;}
+  function LY(f){return 156-((Math.min(f,fmax)-fmin)/(fmax-fmin))*130;}
+  var d="",fill="";
+  for(i=0;i<G;i++){d+=(i?"L":"M")+LX(i).toFixed(1)+" "+LY(F[i]).toFixed(1);}
+  fill=d+"L"+LX(G-1)+" 170L"+LX(0)+" 170Z";
+  land.appendChild(S("path",{d:fill,fill:"var(--wash)"}));
+  land.appendChild(S("path",{d:d,fill:"none",stroke:"var(--soft)","stroke-width":2}));
+  var deep=F.indexOf(fmin);
+  var mk=S("text",{x:LX(deep),y:LY(fmin)+15,"text-anchor":"middle","font-size":"10px",fill:"var(--state)"});
+  mk.textContent="いちばん深い谷";land.appendChild(mk);
+  var trail=[],TRAILN=22;
+  for(i=0;i<TRAILN;i++){var tc=S("circle",{r:3,fill:"var(--clash)",opacity:0});land.appendChild(tc);trail.push(tc);}
+  var ball=S("circle",{r:8,fill:"var(--clash)",stroke:"var(--panel)","stroke-width":2});land.appendChild(ball);
+  var START=Math.round(0.06*(G-1)), lp=START, shown=START, hist=[], lbusy=false;
+  function placeBall(){ball.setAttribute("cx",LX(shown));ball.setAttribute("cy",LY(F[Math.round(shown)])-9);
+    for(var k=0;k<TRAILN;k++){var h=hist[hist.length-1-k];
+      if(h===undefined){trail[k].setAttribute("opacity",0);continue;}
+      trail[k].setAttribute("cx",LX(h));trail[k].setAttribute("cy",LY(F[h])-9);
+      trail[k].setAttribute("opacity",(0.35*(1-k/TRAILN)).toFixed(2));}}
+  function lsay(h){$("a-lstatus").innerHTML=h;}
+  function lrun(T0L,T1L,DUR,total,maxStep,end){
+    if(lbusy)return;lbusy=true;lp=START;shown=START;hist=[];placeBall();
+    var t0=0,done=0;
+    function Tl(k){return T0L===0?0:T0L*Math.pow(T1L/T0L,k/(total-1));}
+    function one(k){var T=Tl(k),q=Math.max(0,Math.min(G-1,lp+(Math.random()<.5?-1:1)*(1+Math.floor(Math.random()*maxStep))));
+      var dd=F[q]-F[lp];if(dd<0||(T>0&&Math.random()<Math.exp(-dd/T)))lp=q;}
+    if(reduce){for(var k=0;k<total;k++)one(k);shown=lp;hist=[];placeBall();lbusy=false;end();return;}
+    function frame(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/DUR),target=Math.floor(p*total);
+      while(done<target){one(done);done++;}
+      shown+=(lp-shown)*0.35;hist.push(lp);if(hist.length>TRAILN)hist.shift();
+      if(Tl(Math.min(done,total-1))<0.03)hist=[];
+      placeBall();
+      if(p<1||Math.abs(shown-lp)>0.5)requestAnimationFrame(frame);else{shown=lp;hist=[];placeBall();lbusy=false;end();}}
+    requestAnimationFrame(frame);}
+  $("a-lquench").addEventListener("click",function(){
+    lsay("温度ゼロ。下り坂にしか動けません。");
+    lrun(0,0,1300,3000,3,function(){lsay("転がり落ちた<b>最初の谷</b>で止まりました。ここから出るには山を登る必要がありますが、温度ゼロでは登れません。");});});
+  $("a-lanneal").addEventListener("click",function(){
+    lsay("温度が高いうちは、ときどき山を<b>登る</b>動きも受け入れます。");
+    lrun(0.35,0.004,7000,21000,8,function(){
+      var x=lp/(G-1);
+      lsay(x>0.65?"山を越えて動き回ったあと、<b>いちばん深い谷</b>に落ち着きました。":"今回は途中の谷で止まりました。もう一度試してみてください。");});});
+  placeBall();
+  lsay("いきなり冷やすと、ゆっくり冷やすを比べてください。");
+
+  return {key:function(k){if(k==="q")quench();else if(k==="a")anneal();}};
+})();
+
+/* =====================================================================
+   tabs, keys, theme
+   ===================================================================== */
+var active="bloch";
+function show(name,push){
+  if(!$("v-"+name))name="bloch";
+  active=name;
+  [].slice.call(document.querySelectorAll(".view")).forEach(function(v){v.classList.toggle("on",v.id==="v-"+name);});
+  [].slice.call(document.querySelectorAll("[data-tab]")).forEach(function(b){b.setAttribute("aria-selected",b.getAttribute("data-tab")===name);});
+  if(push!==false){try{history.replaceState(null,"","#"+name);}catch(e){}}
+}
+[].slice.call(document.querySelectorAll("[data-tab]")).forEach(function(b){
+  b.addEventListener("click",function(){show(b.getAttribute("data-tab"));});});
+window.addEventListener("hashchange",function(){show(location.hash.slice(1),false);});
+document.addEventListener("keydown",function(e){
+  var t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA")return;
+  if(e.metaKey||e.ctrlKey||e.altKey)return;
+  var k=e.key.toLowerCase();
+  if(k==="1"){show("bloch");return;} if(k==="2"){show("gates");return;} if(k==="3"){show("anneal");return;}
+  if(active==="bloch")Bloch.key(k);
+  else if(active==="gates"&&k==="enter"&&e.target===document.body){e.preventDefault();Gates.key(k);}
+  else if(active==="anneal")Anneal.key(k);
+});
+var tb=$("theme");
+function dark(){var t=document.documentElement.getAttribute("data-theme");
+  return t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;}
+tb.addEventListener("click",function(){document.documentElement.setAttribute("data-theme",dark()?"light":"dark");
+  tb.textContent=dark()?"明るくする":"暗くする";});
+tb.textContent=dark()?"明るくする":"暗くする";
+show(location.hash.slice(1)||"bloch",false);
+})();
 </script>
 </body>
 </html>
