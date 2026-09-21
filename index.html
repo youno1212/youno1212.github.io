@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Youno's Pages</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --ink: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+      --rule: rgba(148, 163, 184, 0.28);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 32px 20px;
+    }
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 16px;
+      letter-spacing: 0.04em;
+    }
+    p {
+      color: var(--muted);
+      margin: 0 0 26px;
+      line-height: 1.7;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      padding: 22px 18px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .card a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Youno's Pages</h1>
+    <p>
+      作品やテーマごとに整理して公開しています。今後はページごとにディレクトリを分ける形で管理しやすくしています。
+    </p>
+
+    <div class="grid">
+      <section class="card">
+        <h2>量子コンピュータ、さわってみる</h2>
+        <p>量子ゲートやブロッホ球、アニーリングなどを体験できるインタラクティブなページです。</p>
+        <a href="./quantum-demos/">開く</a>
+      </section>
+
+      <section class="card">
+        <h2>量子計算の分野地図</h2>
+        <p>量子計算の分野を地図として整理した、視覚的な説明ページです。</p>
+        <a href="./quantum-field-map/">開く</a>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
